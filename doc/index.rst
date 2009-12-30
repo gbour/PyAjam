@@ -21,13 +21,14 @@ server.
     print "Invalid login"
     sys.exit(1)
 
-  peers = ajam.peers())
-  peer  = ajam.sippeer('101'))
+  peers = ajam.peers())          # array of SIP/IAX2 peers
+  peer  = ajam.sippeer('101'))   # dictionary of peer attributes
 
+  # screenprint events
   def ajam_event_listener(data):
     print data
 
-  ajam.waitevent(async=True, callback=ajam_event_listener)
+  ajam.waitevent(async=False, callback=ajam_event_listener)
 
 .. toctree::
    :maxdepth: 2

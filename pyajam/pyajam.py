@@ -54,6 +54,7 @@ class Pyajam:
 
 		self._sessionid_ 	= ''
 		self._version_		= None
+		self._waitevt__run = False
 
 	def _query(self, mode, action, args={}):
 		"""Query Asterisk AJAM service.
@@ -536,12 +537,17 @@ class Pyajam:
 
 	def waitevent(self, async=False, callback=None):
 		"""Manage Asterisk events.
-        If *async* is True, execute callback function when receiving events, else return event datas,
-        *callback* is the called function called in async mode.
+     
+     Usage:
+       * if *async* is **False** and *callback* is **None**, return the first eventlist received (*blocking*),
+       * if *async* is **False** and *callback* is not **None**, execute the callback for 
+         each received eventlist (*blocking*, e.g waitevent() never returns until calling *waitevent_stop()*),
+       * if *async* is **True** (*callback* is required), execute the callback for each 
+         eventlist (*non-blocking*, e.g waitevent() returns immediatly)
 
-      **Callback function**:
-        the callback function must take one argument. This argument is an array of
-        events (dictionary)
+     **Callback function**:
+        the callback function must take one argument, an eventlist (array of
+        events, as dictionaries)
 
      ::
 
@@ -551,14 +557,17 @@ class Pyajam:
      >>> ajam = Pyajam(username='mspencer', password='*rocks!')
      >>> pprint ajam.waitevent(async=False)
      >>>
-     >>> def ajam_event_listener(data):
-     >>>   pp.pprint(data[1])
-     >>> ajam.waitevent(async=True, callback=ajam_event_listener)
+     >>> def ajam_event_listener(evtlist):
+     >>>   pp.pprint(evtlist)
+     >>> ajam.waitevent(async=False, callback=ajam_event_listener)
      [ { u'event': u'Reload',
          u'message': u'Reload Requested',
          u'privilege': u'system,all'},
         {u'event': u'WaitEventComplete'}]
 		"""
+		if self._waitevt__run:
+			raise Exception('Event manager is still running')
+
 		if async:
 			if not callback:
 				raise ValueError('callback argument is required when async is true')
@@ -566,45 +575,36 @@ class Pyajam:
 			from Queue import Queue
 			import thread
 			self.eventQ = Queue(0)
-			thread.start_new_thread(self._waitevent_wait, (callback,))
+			thread.start_new_thread(self._waitevent, (callback,))
+		else:
+			return self._waitevent(callback)
 
+	def _waitevent(self, callback):
+		"""Event async manager.
+		"""
 		self._waitevt__run = True
 		while self._waitevt__run:
 			(info, data) = self._query('mxml', 'waitevent')
 			if not info:
 				time.sleep(1); continue
-		
-			if async:
-				self.eventQ.put_nowait(data)
-			elif callback:
-				try:
-					if self.unify:
-						data = self._unify_xml(data)
 
+			if self.unify:
+				data = self._unify_xml(data)
+		
+			if callback:
+				try:
 					callback(data)
 				except Exception, e:
 					print e
 			else:
-				return data
-			
+				self._waitevt__run = False
+				return data			
 
 	def waitevent_stop():
 		"""Stop event async manager.
 		"""
 		self._waitevt__run = False
 
-	def _waitevent_wait(self, callback):
-		"""Event async manager.
-		"""
-		while self._waitevt__run:
-			try:
-				data = self.eventQ.get()
-				if self.unify:
-					data = self._unify_xml(data)
-
-				callback(data)
-			except Exception:
-				pass
 
 if __name__ == '__main__':
 	logging.basicConfig(level=logging.ERROR)
@@ -647,4 +647,12 @@ if __name__ == '__main__':
 		print "event data >>>"
 		pp.pprint(data)
 
-	ajam.waitevent(True, ajam_event_listener)
+	while True:
+		pp.pprint(ajam.waitevent(False))
+		time.sleep(1)
+
+#	ajam.waitevent(False, ajam_event_listener)
+
+#	ajam.waitevent(True, ajam_event_listener)
+#	while True:
+#		time.sleep(1)
