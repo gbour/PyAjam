@@ -35,7 +35,13 @@ time = -1 when peerstatus == Unreachavle
 WaitEventComplete
 .................
 
-{u'event': u'WaitEventComplete'}
+Returned by asterisk at the end of each eventlist.
+
+.. code-block:: python
+
+   {
+      u'event': u'WaitEventComplete'
+   }
 
 
 Newchannel
