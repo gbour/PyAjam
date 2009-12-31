@@ -600,7 +600,7 @@ class Pyajam:
 				self._waitevt__run = False
 				return data			
 
-	def waitevent_stop():
+	def waitevent_stop(self):
 		"""Stop event async manager.
 		"""
 		self._waitevt__run = False
