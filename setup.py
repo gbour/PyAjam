@@ -21,15 +21,35 @@ from setuptools import setup, find_packages
 
 
 setup(
-	name              = "Pyajam",
+	name              = "PyAjam",
 	version           = "0.1.1",
 	packages          = find_packages(),
 	install_requires  = ["4Suite-XML >= 1.0.2"],
 
 	author            = "Guillaume Bour",
 	author_email      = "guillaume@bour.cc",
-	description       = "blablabla",
-	license           = "GPL3",
-	keywords          = "asterisk ajam api",
+	description       = "Python binding for Asterisk AJAM interface",
+	license           = 'GNU General Public License v3',
+	classifiers       = [
+		'Development Status :: 4 - Beta',
+		'Environment :: Console',
+		'Intended Audience :: Developers',
+		'License :: OSI Approved :: GNU General Public License (GPL)',
+		'Natural Language :: English',
+		'Natural Language :: French',
+		'Operating System :: OS Independent',
+		'Programming Language :: Python',
+		'Programming Language :: Python :: 2.5',
+		'Programming Language :: Python :: 2.6',
+		'Programming Language :: Python :: 2.7',
+		'Topic :: Software Development',
+		'Topic :: Software Development :: Libraries :: Python Modules',
+		'Topic :: Utilities',
+	],
+
+	long_description  = """Pyajam allows to interact with an asterisk server using the AJAM interface, in a pythonic way""",
+
+	keywords          = "Asterisk AJAM API VoIP",
 	url               = "http://devedge.bour.cc/wiki/Pyajam",
+	download_url      = 'http://devedge.bour.cc/resources/pyajam/src/pyajam.latest.tar.gz',
 )
