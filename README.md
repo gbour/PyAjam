@@ -1,10 +1,10 @@
 PyAjam
 ======
 
-[AJAM](http://www.voip-info.org/wiki/view/Aynchronous+Javascript+Asterisk+Manager+%28AJAM%29)(Asynchronous Javascript Asterisk Manager) is the new interface build upon HTTP to interact with Asterisk. 
+[AJAM](http://www.voip-info.org/wiki/view/Aynchronous+Javascript+Asterisk+Manager+%28AJAM%29) (Asynchronous Javascript Asterisk Manager) is the new interface build upon HTTP to interact with Asterisk. 
 AJAM was Introduced in asterisk 1.4. Returned datas are mostly formatted in XML.
 
-[PyAjam](http://devedge.bour.cc/wiki/PyAjam) is pa python library allowing
+[PyAjam](http://devedge.bour.cc/wiki/PyAjam) is a python library allowing
 programs to interact with an asterisk server using the AJAM interface, in
 a pythonic way.
 
@@ -13,14 +13,14 @@ a pythonic way.
 * [4Suite-XML](http://pypi.python.org/pypi/4Suite-XML)
 
 ###Compatility:
-*	python 2.[4-7]
+*	python 2.[5-7]
 
 ###Installation
 	easy_install PyAjam
 
 or
 
-	wget http://devedge.bour.cc/resources/PyAjam/src/pyajam.latest.tar.gz
+	wget http://devedge.bour.cc/resources/pyajam/src/pyajam.latest.tar.gz
 	tar xvf pyajam.latest.tar.gz
 	cd reblok-* && ./setup.py install
 
@@ -40,6 +40,8 @@ You can found PyAjam documentation at [http://devedge.bour.cc/resources/pyajam/d
 
 Example
 -------
+
+	>>> from pyajam import Pyajam
 
 	>>> ajam = Pyajam(server='192.168.0.10', username='mspencer', password='*rocks!')
 	>>> if not ajam.login():
