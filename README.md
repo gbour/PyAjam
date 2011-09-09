@@ -10,7 +10,7 @@ a pythonic way.
 
 
 ###Requirements:
-* [4Suite-XML](http://pypi.python.org/pypi/4Suite-XML)
+* None 
 
 ###Compatility:
 *	python 2.[5-7]
