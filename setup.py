@@ -24,7 +24,7 @@ setup(
 	name              = "PyAjam",
 	version           = "0.2",
 	packages          = find_packages(),
-  install_requires  = ["4Suite-XML >= 1.0.2"],
+  #install_requires  = ["4Suite-XML >= 1.0.2"],
 
 	author            = "Guillaume Bour",
 	author_email      = "guillaume@bour.cc",
