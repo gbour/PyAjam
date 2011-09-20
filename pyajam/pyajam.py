@@ -23,7 +23,7 @@ __status__  = "developpement"
 __version__ = "0.2"
 __date__    = "2011/09/08"
 
-import sys, urllib2, re, logging, httplib, time
+import sys, urllib2, re, logging, time
 # Only on python 2.5 & superior
 from xml.etree import ElementTree
 
@@ -55,6 +55,10 @@ class Pyajam:
     self.autoconnect  = autoconnect
     self.unify        = not asraw
 
+    self.connexion_status = 'DISCONNECTED' # 'DISCONNECTED', 'CONNECTED','LOST_CONNEXION'
+    self.errback      = None
+    self.recoverback  = None
+
     self._sessionid_  = ''
     self._version_    = None
     self._waitevt__run = False
@@ -76,12 +80,20 @@ class Pyajam:
       logging.debug(data)
     except Exception, e:
       logging.error(e)
+      if self.connexion_status == 'CONNECTED' and self.errback:
+        # We WERE connected, but not anymore, so if there is a errback, run it
+        self.errback()
+      self.connexion_status = 'LOST_CONNEXION'
       return (None, None)
 
     if self.autoconnect and \
        ('Authentication Required' in data or 'Permission denied' in data):
       logging.debug('trying to reconnect...')
       if not self.login():
+        if self.connexion_status == 'CONNECTED' and self.errback:
+          # We WERE connected, but not anymore, so if there is a errback, run it
+          self.errback()
+        self.connexion_status = 'LOST_CONNEXION'
         return (None, None)
 
       req.add_header('Cookie', "mansession_id=\"%s\"" % self._sessionid_)
@@ -89,8 +101,19 @@ class Pyajam:
         f = urllib2.urlopen(req)
         data = f.read()
       except Exception, e:
+        if self.connexion_status == 'CONNECTED' and self.errback:
+          # We WERE connected, but not anymore, so if there is a errback, run it
+          self.errback()
+        self.connexion_status = 'LOST_CONNEXION'
         return (None, None)
     
+
+    if self.connexion_status == 'LOST_CONNEXION' and self.recoverback:
+        self.connexion_status = 'CONNECTED'
+        # We have a recover, say it !
+        self.recoverback()
+
+    self.connexion_status = 'CONNECTED'
     return (f.info(), data)
 
   def _unify_xml(self, raw, normalizer=None, attribute='event'):
@@ -534,7 +557,7 @@ class Pyajam:
       data = self._unify_raw(data, regex, normalizer, unifyin)
     return data
 
-  def waitevent(self, async=False, callback=None):
+  def waitevent(self, async=False, callback=None, errback=None, recoverback=None):
     """Manage Asterisk events.
      
      Usage:
@@ -566,6 +589,12 @@ class Pyajam:
     """
     if self._waitevt__run:
       raise Exception('Event manager is still running')
+
+    if errback:
+      self.errback = errback
+
+    if recoverback:
+      self.recoverback = recoverback
 
     if async:
       if not callback:
