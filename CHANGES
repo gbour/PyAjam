@@ -2,4 +2,10 @@
 0.1 - initial release
 
 0.1.1 - docs
-	add README.md, MANIFEST.in, AUTHORS, CHANGES and COPYING files
+	add README.md, MANIFEST.in, AUTHORS, CHANGES and COPYING 
+
+0.2 - maintenance (lstep)
+    . replace use of 4suite-xml by xml.etree
+    . add unittests
+    . add callbacks for lost/recovered connections notification
+
