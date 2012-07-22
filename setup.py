@@ -21,7 +21,7 @@ from setuptools import setup, find_packages
 
 setup(
     name              = "PyAjam",
-    version           = "0.3",
+    version           = "0.2",
     packages          = find_packages(),
 
     author            = "Guillaume Bour",
