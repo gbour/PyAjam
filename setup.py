@@ -22,9 +22,9 @@ from setuptools import setup, find_packages
 
 setup(
 	name              = "PyAjam",
-	version           = "0.1.1",
+	version           = "0.3",
 	packages          = find_packages(),
-	install_requires  = ["4Suite-XML >= 1.0.2"],
+  #install_requires  = ["4Suite-XML >= 1.0.2"],
 
 	author            = "Guillaume Bour",
 	author_email      = "guillaume@bour.cc",
@@ -49,7 +49,9 @@ setup(
 
 	long_description  = """Pyajam allows to interact with an asterisk server using the AJAM interface, in a pythonic way""",
 
+  tests_require     = "nose",
+  test_suite        = "nose.collector",
 	keywords          = "Asterisk AJAM API VoIP",
-	url               = "http://devedge.bour.cc/wiki/Pyajam",
-	download_url      = 'http://devedge.bour.cc/resources/pyajam/src/pyajam.latest.tar.gz',
+  url               = "http://devedge.bour.cc/wiki/Pyajam",
+  download_url      = 'http://devedge.bour.cc/resources/pyajam/src/pyajam.latest.tar.gz',
 )
