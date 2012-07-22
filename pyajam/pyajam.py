@@ -3,7 +3,7 @@
 # vim:syntax=python:sw=4:ts=4:expandtab
 """
     pyajam, ...
-    Copyright (C) 2009  Guillaume Bour <guillaume@bour.cc>
+    Copyright (C) 2009-2012  Guillaume Bour <guillaume@bour.cc>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
