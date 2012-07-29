@@ -1,0 +1,60 @@
+HTTP/1.1 200 OK
+Server: Asterisk/1.4.44
+Date: Mon, 23 Jul 2012 13:54:34 GMT
+Connection: close
+Cache-Control: no-cache, no-store
+Content-type: text/plain
+Set-Cookie: mansession_id="04803839"; Version=1; Max-Age=999
+
+Response: Follows
+Privilege: Command
+
+
+  * Name       : 101
+  Secret       : <Not set>
+  MD5Secret    : <Not set>
+  Context      : default
+  Subscr.Cont. : <Not set>
+  Language     : 
+  AMA flags    : Unknown
+  Transfer mode: open
+  CallingPres  : Presentation Allowed, Not Screened
+  Callgroup    : 
+  Pickupgroup  : 
+  Mailbox      : 
+  VM Extension : asterisk
+  LastMsgsSent : 32767/65535
+  Call limit   : 0
+  Dynamic      : Yes
+  Callerid     : "" <>
+  MaxCallBR    : 384 kbps
+  Expire       : -1
+  Insecure     : no
+  Nat          : Always
+  ACL          : No
+  T38 pt UDPTL : No
+  CanReinvite  : Yes
+  PromiscRedir : No
+  User=Phone   : No
+  Video Support: No
+  Trust RPID   : No
+  Send RPID    : No
+  Subscriptions: Yes
+  Overlap dial : No
+  Forward Loop : Yes
+  DTMFmode     : rfc2833
+  LastMsg      : 0
+  ToHost       : 
+  Addr->IP     : (Unspecified) Port 0
+  Defaddr->IP  : 0.0.0.0 Port 5060
+  Def. Username: 
+  SIP Options  : (none)
+  Codecs       : 0x8000e (gsm|ulaw|alaw|h263)
+  Codec Order  : (none)
+  Auto-Framing:  No 
+  Status       : Unmonitored
+  Useragent    : 
+  Reg. Contact : 
+
+--END COMMAND--
+

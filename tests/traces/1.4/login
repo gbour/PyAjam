@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store
+Connection: close
+Date: Mon, 23 Jul 2012 09:54:14 GMT
+Server: Asterisk/1.4.44
+Content-Type: text/html
+Client-Date: Mon, 23 Jul 2012 09:54:15 GMT
+Client-Peer: 127.0.0.1:8088
+Client-Response-Num: 1
+Set-Cookie: mansession_id="3ac1e27b"; Version=1; Max-Age=60
+Title: Asterisk™ Manager Interface
+
+<title>Asterisk&trade; Manager Interface</title><body bgcolor="#ffffff"><table align=center bgcolor="#f1f1f1" width="500">
+<tr><td colspan="2" bgcolor="#f1f1ff"><h1>&nbsp;&nbsp;Manager Tester</h1></td></tr>
+<tr><td>Response</td><td>Success</td></tr>
+<tr><td>Message</td><td>Authentication accepted</td></tr>
+</table></body>

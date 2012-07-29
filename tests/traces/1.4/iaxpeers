@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Server: Asterisk/1.4.44
+Date: Mon, 23 Jul 2012 13:46:30 GMT
+Connection: close
+Cache-Control: no-cache, no-store
+Content-type: text/plain
+Set-Cookie: mansession_id="6b8802a1"; Version=1; Max-Age=999
+
+Name/Username    Host                 Mask             Port          Status    
+demo/asterisk    216.207.245.47  (S)  255.255.255.255  4569          Unmonitored
+1 iax2 peers [0 online, 0 offline, 1 unmonitored]
+
+
