@@ -135,7 +135,7 @@ class Pyajam:
 
     return datas
 
-  def _unify_raw(self, raw, regex, normalizer, datas=[]):
+  def _unify_raw(self, raw, regex, normalizer, datas=None):
     """Convert Asterisk raw message (old manager API) to python dictionary.
     """
     if regex is None:
@@ -144,7 +144,9 @@ class Pyajam:
     if type(regex) == str:
       regex = re.compile(regex, re.M)
 
-#   datas = []
+    if datas is None:
+        datas=[]
+
     for m in regex.finditer(raw):
       obj = m.groupdict()
 
@@ -514,7 +516,7 @@ class Pyajam:
     return data
     
 
-  def command(self, command, regex=None, normalizer=None, unifyin=[]):
+  def command(self, command, regex=None, normalizer=None, unifyin=None):
     """Execute an Asterisk command.
       command is always returned in raw mode from asterisk.
       *command* is the asterisk command as typed in asterisk console,
