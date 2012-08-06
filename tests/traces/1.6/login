@@ -1,0 +1,31 @@
+HTTP/1.1 200 OK
+Server: Asterisk/1.6.2.24
+Date: Fri, 03 Aug 2012 07:51:55 CET
+Connection: close
+Cache-Control: no-cache, no-store
+Content-type: text/html
+Cache-Control: no-cache;
+Set-Cookie: mansession_id="3ac1e27b"; Version=1; Max-Age=999
+Pragma: SuppressEvents
+
+<title>Asterisk&trade; Manager Interface</title><body bgcolor="#ffffff"><table align=center bgcolor="#f1f1f1" width="500">
+<tr><td colspan="2" bgcolor="#f1f1ff"><h1>Manager Tester</h1></td></tr>
+<tr><td colspan="2" bgcolor="#f1f1ff"><form action="manager">
+	Action: <select name="action">
+		<option value="">-----&gt;</option>
+		<option value="login">login</option>
+		<option value="command">Command</option>
+		<option value="waitevent">waitevent</option>
+		<option value="listcommands">listcommands</option>
+	</select>
+	or <input name="action"><br/>
+	CLI Command <input name="command"><br>
+	user <input name="username"> pass <input type="password" name="secret"><br>
+	<input type="submit">
+</form>
+</td></tr>
+<body>
+<tr><td>Response</td><td>Success</td></tr>
+<tr><td>Message</td><td>Authentication accepted</td></tr>
+<tr><td colspan="2"><hr></td></tr>
+</table></body>

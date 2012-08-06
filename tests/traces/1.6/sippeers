@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Server: Asterisk/1.6.2.24
+Date: Fri, 03 Aug 2012 07:54:11 CET
+Connection: close
+Cache-Control: no-cache, no-store
+Content-type: text/xml
+Cache-Control: no-cache;
+Set-Cookie: mansession_id="3d6bf3c7"; Version=1; Max-Age=999
+Pragma: SuppressEvents
+
+<ajax-response>
+<response type='object' id='unknown'><generic response='Success' eventlist='start' message='Peer status list will follow' /></response>
+<response type='object' id='unknown'><generic event='PeerEntry' channeltype='SIP' objectname='101' chanobjecttype='peer' ipaddress='-none-' ipport='5060' dynamic='yes' natsupport='yes' videosupport='no' textsupport='no' acl='no' status='Unmonitored' realtimedevice='no' /></response>
+<response type='object' id='unknown'><generic event='PeerEntry' channeltype='SIP' objectname='102' chanobjecttype='peer' ipaddress='-none-' ipport='5060' dynamic='yes' natsupport='yes' videosupport='no' textsupport='no' acl='no' status='Unmonitored' realtimedevice='no' /></response>
+<response type='object' id='unknown'><generic event='PeerlistComplete' eventlist='Complete' listitems='2' /></response>
+</ajax-response>

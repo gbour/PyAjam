@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Server: Asterisk/1.6.2.24
+Date: Fri, 03 Aug 2012 07:58:14 CET
+Connection: close
+Cache-Control: no-cache, no-store
+Content-type: text/xml
+Cache-Control: no-cache;
+Set-Cookie: mansession_id="3d6bf3c7"; Version=1; Max-Age=999
+Pragma: SuppressEvents
+
+<ajax-response>
+<response type='object' id='unknown'><generic response='Success' channeltype='SIP' objectname='101' chanobjecttype='peer' secretexist='N' remotesecretexist='N' md5secretexist='N' context='default' language='' amaflags='Unknown' cid_callingpres='Presentation Allowed, Not Screened' callgroup='' pickupgroup='' voicemailbox='' transfermode='open' lastmsgssent='-1' call_limit='0' busy_level='0' maxcallbr='384 kbps' dynamic='Y' callerid='&quot;&quot; &lt;&gt;' regexpire='-1 seconds' sip_authinsecure='no' sip_natsupport='Always' acl='N' sip_canreinvite='Y' sip_directmedia='Y' sip_promiscredir='N' sip_userphone='N' sip_videosupport='N' sip_textsupport='N' sip_t_38support='N' sip_t_38ec='Unknown' sip_t_38maxdtgrm='-1' sip_sess_timers='Accept' sip_sess_refresh='uas' sip_sess_expires='1800' sip_sess_min='90' sip_dtmfmode='rfc2833' tohost='' address_ip='' address_port='5060' default_addr_ip='0.0.0.0' default_addr_port='5060' default_username='' codecs='0x8000e (gsm|ulaw|alaw|h263)' codecorder='' status='Unmonitored' sip_useragent='' reg_contact='' qualifyfreq='60000 ms' parkinglot='' /></response>
+</ajax-response>

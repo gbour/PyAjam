@@ -493,7 +493,7 @@ class Pyajam:
       if not info:
         return False
 
-      data = self._unify_xml(data, attribute='response')
+      data = self._unify_xml(data, attribute='response')[0]
     else:
       def _normalizer(row):
         key = row['key'].strip()

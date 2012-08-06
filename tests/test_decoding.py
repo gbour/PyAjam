@@ -65,6 +65,9 @@ class TestDecoding(unittest.TestCase):
         self.ajam = Pyajam()
         self.ajam._query = fake_query(self.path, self._testMethodName.split('_')[1])
 
+        # we *force* asterisk version in ajam (note if we run *test_login*, will be replaced by real version)
+        self.ajam._version_ = self.version
+
     def tearDown(self):
         self.ajam = None
 
@@ -104,8 +107,8 @@ class TestDecoding(unittest.TestCase):
 if __name__ == '__main__':
     testnames =  unittest.TestLoader().getTestCaseNames(TestDecoding)
 
-    for vers in ['1.4']:
-        print "** with asterisk 1.4 **"
+    for vers in ['1.4', '1.6']:
+        print "** with asterisk %s **" % vers
 
         suite = unittest.TestSuite()
         for name in testnames:
