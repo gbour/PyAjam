@@ -100,7 +100,7 @@ class TestDecoding(unittest.TestCase):
     def test_peer(self):
         peer = self.ajam.sippeer('101')
         self.assertTrue(isinstance(peer, dict))
-        self.assertEqual(peer.get('name',None), '101')
+        self.assertEqual(peer.get('objectname',None), '101')
         self.assertEqual(peer.get('status',None), 'Unmonitored')
 
 

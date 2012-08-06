@@ -468,6 +468,7 @@ class Pyajam:
        'md5secret'    : '<Not set>',
        'name'         : '101',
        'nat'          : 'RFC3581',
+       'objectname'   : '101',
        'overlap dial' : 'No',
        'pickupgroup'  : '',
        'promiscredir' : 'No',
@@ -502,6 +503,8 @@ class Pyajam:
 
         if key == '* Name': 
           key = 'Name'
+          # in 1.6 or later, the key is *objectname*, so we add it for 1.4 version
+          row['objectname'] = row['value'].strip()
 
         row[key.lower()] = row['value'].strip()
 
