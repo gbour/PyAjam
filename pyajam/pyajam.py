@@ -116,14 +116,17 @@ class Pyajam:
     self.connexion_status = 'CONNECTED'
     return (f.info(), data)
 
-  def _unify_xml(self, raw, normalizer=None, attribute='event'):
+  def _unify_xml(self, raw, normalizer=None, filter={'event': None}):
     """Convert Asterisk ajam XML message to python dictionary.
     """
     doc = ElementTree.fromstring(raw)
     datas = []
 
     for elem in doc.iter(tag='generic'):
-      if attribute in elem.keys():
+      for attr, value in filter.iteritems():
+        if attr not in elem.keys() or value is not None and elem.get(attr) != value:
+          continue
+
         # We have the good shape :-)
         attrs = {}
         for key in elem.keys():
@@ -335,7 +338,7 @@ class Pyajam:
         return row
 
     if self._version_ == '1.6':
-      data = self._unify_xml(data, _normalize)
+      data = self._unify_xml(data, _normalize, filter={'event': 'PeerEntry'})
     else:
       data = self._unify_raw(data, 
         '^(?P<objectname>[^\s]+)\s+(?P<ipaddress>[0-9.]*)\s+\\((?P<dynamic>S|D)\\)\s+([0-9.]+)\s+(?P<ipport>\d+)\s+(?P<status>.*?)\s+$',
@@ -418,7 +421,7 @@ class Pyajam:
       if not info:
         return False
 
-      data = self._unify_xml(data, _normalize)
+      data = self._unify_xml(data, filter={'event': 'RegistryEntry'})
     else:
       data = self.command('sip show registry',
         '^(?P<host>[^\s]+):(?P<port>[0-9]+)\s+(?P<username>[^\s]+)\s+(?P<refresh>[0-9.]+)\s+(?P<state>[^\s]+).*$'
@@ -494,7 +497,7 @@ class Pyajam:
       if not info:
         return False
 
-      data = self._unify_xml(data, attribute='response')[0]
+      data = self._unify_xml(data, filter={'response': None})[0]
     else:
       def _normalizer(row):
         key = row['key'].strip()
