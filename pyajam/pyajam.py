@@ -321,7 +321,7 @@ class Pyajam:
       def _normalize(row):
         row[u'channeltype'] = u'IAX2'
     
-        if row['dynamic'] == 'D':
+        if row['dynamic'] in ('yes', 'D'):
           row['dynamic'] = u'yes'
         else:
           row['dynamic'] = u'no'
