@@ -340,13 +340,14 @@ class Pyajam:
 
         return row
 
-    if self._version_ >= '1.6':
-      data = self._unify_xml(data, _normalize, filter={'event': 'PeerEntry'})
-    else:
-      data = self._unify_raw(data, 
-        '^(?P<objectname>[^\s]+)\s+(?P<ipaddress>[0-9.]*)\s+\\((?P<dynamic>S|D)\\)\s+([0-9.]+)\s+(?P<ipport>\d+)\s+(?P<status>.*?)\s+$',
-        _normalize
-      )
+      if self._version_ >= '1.6':
+        data = self._unify_xml(data, _normalize, filter={'event': 'PeerEntry'})
+      else:
+        data = self._unify_raw(data,
+          '^(?P<objectname>[^\s]+)\s+(?P<ipaddress>[0-9.]*)\s+\\((?P<dynamic>S|D)\\)\s+([0-9.]+)\s+(?P<ipport>\d+)\s+(?P<status>.*?)\s+$',
+          _normalize
+        )
+
     return data
 
   def peers(self):
