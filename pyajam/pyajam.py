@@ -188,7 +188,7 @@ class Pyajam:
 
     self._version_ = info['Server'].split('/')[1][:3]
 #   print 'version=', self._version_
-    if self._version_ not in ['1.4', '1.6']:
+    if self._version_ not in ['1.4', '1.6', '1.8']:
       logging.error("login:: Unmanaged %s asterisk version" % self._version_)
       return 'False'
     
@@ -310,7 +310,7 @@ class Pyajam:
       self.connexion_status = 'CONNECTED'
 
     mode = 'rawman'
-    if self._version_ == '1.6':
+    if self._version_ >= '1.6':
       mode = 'mxml'
     (info, data) = self._query(mode, 'iaxpeers')
 
@@ -340,7 +340,7 @@ class Pyajam:
 
         return row
 
-    if self._version_ == '1.6':
+    if self._version_ >= '1.6':
       data = self._unify_xml(data, _normalize, filter={'event': 'PeerEntry'})
     else:
       data = self._unify_raw(data, 
@@ -417,6 +417,7 @@ class Pyajam:
     if self.connexion_status != 'CONNECTED' and self.autoconnect and self.login():
       self.connexion_status = 'CONNECTED'
 
+    if self._version_ >= '1.6':
       (info, data) = self._query('mxml', 'sipshowregistry')
       if not info:
         return False
