@@ -306,6 +306,9 @@ class Pyajam:
 
 
     """
+    if self.connexion_status != 'CONNECTED' and self.autoconnect and self.login():
+      self.connexion_status = 'CONNECTED'
+
     mode = 'rawman'
     if self._version_ == '1.6':
       mode = 'mxml'
@@ -411,11 +414,8 @@ class Pyajam:
          u'state'           : u'Unregistered',
          u'username'        : u'1234'}]
     """
-    if self._version_ == '1.6':
-      def _normalize(row):
-        if row['event'] != 'RegistryEntry':
-          return None
-        return row
+    if self.connexion_status != 'CONNECTED' and self.autoconnect and self.login():
+      self.connexion_status = 'CONNECTED'
 
       (info, data) = self._query('mxml', 'sipshowregistry')
       if not info:
