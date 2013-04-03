@@ -186,9 +186,12 @@ class Pyajam:
       logging.error("login:: not logging to an asterisk server")
       return False
 
-    self._version_ = info['Server'].split('/')[1][:3]
-#   print 'version=', self._version_
-    if self._version_ not in ['1.4', '1.6', '1.8']:
+    version = info['Server'].split('/')[1].split('.',2)
+    self._version_ = version[0]
+    if self._version_ < '10':
+        self._version_ += '.' + version [1]
+    #print 'version=', self._version_, info
+    if self._version_ not in ['1.4', '1.6', '1.8', '10']:
       logging.error("login:: Unmanaged %s asterisk version" % self._version_)
       return 'False'
     

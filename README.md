@@ -31,7 +31,7 @@ Features
 * catch asterisk events
 * information presented in a pythonic way (dict)
 * automatically reconnect to the asterisk server if connection lost
-* compatible with asterisk 1.4 and 1.6
+* compatible with asterisk 1.4, 1.6, 1.8, 10
 
 Documentation
 -------------
