@@ -5,10 +5,10 @@ from pyajam import Pyajam
 
 class TestPyajam:
     def setUp(self):
-      pass
+        pass
 
     def tearDown(self):
-      pass
+        pass
 
     def test_ajam_unify_xml(self):
         input = '''<ajax-response>
@@ -19,6 +19,6 @@ class TestPyajam:
         expected = [{u'peer': u'SIP/601', u'peerstatus': u'Registered', u'event': u'PeerStatus', u'privilege': u'system,all'}, {u'event': u'WaitEventComplete'}]
 
         ajam = Pyajam()
-        
+
         #raise SkipTest
         assert_equal(expected, ajam._unify_xml(input))

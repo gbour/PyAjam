@@ -30,7 +30,7 @@ def fake_query(_path, _action):
         _qq() read the file traces/${ersion}/${action}
         this file must contains what AJAM would return (including status code and HTTP headers)
     """
-    def _qq(mode, action, args={}):        
+    def _qq(mode, action, args={}):
         headers = dict()
         content = None
 
@@ -38,7 +38,7 @@ def fake_query(_path, _action):
             action = args['command']
 
         with open(os.path.join(_path, action)) as f:
-            # first line is HTTP 
+            # first line is HTTP
             f.readline()
 
             while True:
@@ -115,4 +115,3 @@ if __name__ == '__main__':
             suite.addTest(TestDecoding(name, vers))
 
         unittest.TextTestRunner(verbosity=2).run(suite)
-

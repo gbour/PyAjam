@@ -213,4 +213,4 @@ self).get_object_members(want_all)
         members.sort(key=key)
         return members_check_module, members
 
-autodoc.ClassDocumenter = MyClassDocumenter 
+autodoc.ClassDocumenter = MyClassDocumenter

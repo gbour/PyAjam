@@ -107,4 +107,3 @@ if __name__ == '__main__':
         suite.addTest(TestAPI(name, (args.server, args.user, args.password), args.version, login=False))
 
     unittest.TextTestRunner(verbosity=2).run(suite)
-
