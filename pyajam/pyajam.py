@@ -193,7 +193,7 @@ class Pyajam:
         #print 'version=', self._version_, info
         if self._version_ not in ['1.4', '1.6', '1.8', '10', '11']:
             logging.error("login:: Unmanaged %s asterisk version" % self._version_)
-            return 'False'
+            return False
 
         return True
 
