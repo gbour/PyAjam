@@ -445,56 +445,61 @@ class Pyajam:
 
          ::
 
+         - raw command: sip show peer <peername>
+         - add 2 extra keys: channeltype and chanobjecttype
+
          # sippeer() output sample
          >>> import pprint
          >>> from pyajam import Pyajam
          >>> ajam = Pyajam(username='mspencer', password='*rocks!')
          >>> pprint.pprint(ajam.sippeer('101'))
-         { 'acl'          : 'No',
-           'addr->ip'     : '127.0.0.1 Port 5061',
-           'ama flags'    : 'Unknown',
-           'auto-framing' : 'No',
-           'call limit'   : '0',
-           'callerid'     : '"" <>',
-           'callgroup'    : '',
-           'callingpres'  : 'Presentation Allowed, Not Screened',
-           'canreinvite'  : 'Yes',
-           'codec order'  : '(none)',
-           'codecs'       : '0x8000e (gsm|ulaw|alaw|h263)',
-           'context'      : 'default',
-           'def. username': '101',
-           'defaddr->ip'  : '0.0.0.0 Port 5060',
-           'dtmfmode'     : 'rfc2833',
-           'dynamic'      : 'Yes',
-           'expire'       : '1801',
-           'insecure'     : 'no',
-           'language'     : '',
-           'lastmsg'      : '0',
-           'lastmsgssent' : '32767/65535',
-           'mailbox'      : '',
-           'maxcallbr'    : '384 kbps',
-           'md5secret'    : '<Not set>',
-           'name'         : '101',
-           'nat'          : 'RFC3581',
-           'objectname'   : '101',
-           'overlap dial' : 'No',
-           'pickupgroup'  : '',
-           'promiscredir' : 'No',
-           'reg. contact' : 'sip:101@127.0.0.1:5061',
-           'secret'       : '<Not set>',
-           'send rpid'    : 'No',
-           'sip options'  : '(none)',
-           'status'       : 'OK (1 ms)',
-           'subscr.cont.' : '<Not set>',
-           'subscriptions': 'Yes',
-           't38 pt udptl' : 'No',
-           'tohost'       : '',
-           'transfer mode': 'open',
-           'trust rpid'   : 'No',
-           'user=phone'   : 'No',
-           'useragent'    : 'Twinkle/1.4.2',
-           'video support': 'No',
-           'vm extension' : 'asterisk'}
+         { 'acl'           : 'No',
+           'addr->ip'      : '127.0.0.1 Port 5061',
+           'ama flags'     : 'Unknown',
+           'auto-framing'  : 'No',
+           'call limit'    : '0',
+           'callerid'      : '"" <>',
+           'callgroup'     : '',
+           'callingpres'   : 'Presentation Allowed, Not Screened',
+           'canreinvite'   : 'Yes',
+           'channeltype'   : 'SIP',
+           'chanobjecttype': 'peer'
+           'codec order'   : '(none)',
+           'codecs'        : '0x8000e (gsm|ulaw|alaw|h263)',
+           'context'       : 'default',
+           'def. username' : '101',
+           'defaddr->ip'   : '0.0.0.0 Port 5060',
+           'dtmfmode'      : 'rfc2833',
+           'dynamic'       : 'Yes',
+           'expire'        : '1801',
+           'insecure'      : 'no',
+           'language'      : '',
+           'lastmsg'       : '0',
+           'lastmsgssent'  : '32767/65535',
+           'mailbox'       : '',
+           'maxcallbr'     : '384 kbps',
+           'md5secret'     : '<Not set>',
+           'name'          : '101',
+           'nat'           : 'RFC3581',
+           'objectname'    : '101',
+           'overlap dial'  : 'No',
+           'pickupgroup'   : '',
+           'promiscredir'  : 'No',
+           'reg. contact'  : 'sip :101@127.0.0.1 :5061',
+           'secret'        : '<Not set>',
+           'send rpid'     : 'No',
+           'sip options'   : '(none)',
+           'status'        : 'OK (1 ms)',
+           'subscr.cont.'  : '<Not set>',
+           'subscriptions' : 'Yes',
+           't38 pt udptl'  : 'No',
+           'tohost'        : '',
+           'transfer mode' : 'open',
+           'trust rpid'    : 'No',
+           'user=phone'    : 'No',
+           'useragent'     : 'Twinkle/1.4.2',
+           'video support' : 'No',
+           'vm extension'  : 'asterisk'}
 
         """
         if self._version_ == '1.6':
@@ -524,6 +529,15 @@ class Pyajam:
               '^(?P<key>.*?):(?P<value>.*)$',
               _normalizer, {}
             )
+
+        if len(data) == 0:
+            logging.debug("sippeer(%s): user not found" % peername)
+            return None
+
+        data.update({
+            'channeltype'   : 'SIP',
+            'chanobjecttype': 'peer'
+        })
         return data
 
 
