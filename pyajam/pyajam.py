@@ -541,6 +541,74 @@ class Pyajam:
         return data
 
 
+    def iaxpeer(self, peername):
+        """Query details about a SIP peer.
+         Return IAX peer detailed informations
+
+         - raw command: iax2 show peer <peername>
+         - required privilege: Command
+         - add 2 extra keys: channeltype and chanobjecttype
+
+         # sippeer() output sample
+         >>> import pprint
+         >>> from pyajam import Pyajam
+         >>> ajam = Pyajam(username='mspencer', password='*rocks!')
+         >>> pprint.pprint(ajam.sippeer('demo'))
+            {'acl'           : 'No',
+             'addr->ip'      : '216.207.245.47 Port 4569',
+             'callerid'      : '"" <>',
+             'callnum limit' : '0',
+             'calltoken req' : 'No',
+             'channeltype'   : 'SIP',
+             'chanobjecttype': 'peer'
+             'codec order'   : '(none)',
+             'codecs'        : '0x703 (g723|gsm|g729|speex|ilbc)',
+             'context'       : '',
+             'defaddr->ip'   : '0.0.0.0 Port 0',
+             'dynamic'       : 'No',
+             'encryption'    : 'No',
+             'expire'        : '-1',
+             'mailbox'       : '',
+             'name'          : 'demo',
+             'parking lot'   : '',
+             'secret'        : '<Set>',
+             'status'        : 'Unmonitored',
+             'trunk'         : 'No',
+             'username'      : 'asterisk'}
+
+        """
+        data = self.command('iax2 show peer %s' % peername)
+        m = re.match(r"""^
+            Response:\ Follows\r\n
+            Privilege:\ (\w+)\r\n
+            (.*)\n\n
+            --END\ COMMAND--\r\n\r\n
+        $""", data, re.M|re.S|re.X)
+        if not m:
+            logging.error("iaxpeer(%s): fail to match answer" % peername)
+            logging.error(data)
+
+            return None
+
+        (privilege, payload) = m.groups()
+        if 'not found' in payload:
+            logging.debug("iaxpeer(%s): user not found" % peername)
+            return None
+
+        params = {
+            'channeltype'   : 'IAX',
+            'chanobjecttype': 'peer'
+        }
+        for m in re.finditer(r'\s*(.*)\s*: (.*)\n', payload):
+            key = m.group(1).strip().lower()
+            if key == '* name':
+                key = 'name'
+
+            params[key] = m.group(2).strip()
+
+        return params
+
+    
     def command(self, command, regex=None, normalizer=None, unifyin=None):
         """Execute an Asterisk command.
           command is always returned in raw mode from asterisk.
