@@ -622,7 +622,23 @@ class Pyajam:
         except AttributeError:
             logging.error("peer(%s): unknown '%s' channel type" % (peername, tech))
             raise Exception("unknown '%s' channel type" % tech)
-        
+
+
+    def dial(self, caller, exten, context='default', priority=1, timeout=30):
+        """
+        """
+        if timeout <= .5:
+            raise Exception("dial(): timeout min value is .5 secs")
+
+        self._query('mxml', 'originate', {
+            'channel' : caller,
+            'context' : context,
+            'exten'   : exten,
+            'priority': str(priority),
+            'timeout' : str(timeout*1000),
+            'callerid': 'pyajam '+__version__
+        })
+
 
     def command(self, command, regex=None, normalizer=None, unifyin=None):
         """Execute an Asterisk command.
