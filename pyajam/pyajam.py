@@ -609,6 +609,21 @@ class Pyajam:
         return params
 
     
+    def peer(self, peername):
+        """Query IAX or SIP peers, to return matching peer parameters
+
+            peername: tech/name (i.e SIP/101, IAX/demo)
+        """
+        (tech, name) = peername.split('/', 1)
+        # SIP/101  -> return self.sippeer('101')
+        # IAX/demo -> return self.iaxpeer('demo')
+        try:
+            return getattr(self, tech.lower()+'peer')(name)
+        except AttributeError:
+            logging.error("peer(%s): unknown '%s' channel type" % (peername, tech))
+            raise Exception("unknown '%s' channel type" % tech)
+        
+
     def command(self, command, regex=None, normalizer=None, unifyin=None):
         """Execute an Asterisk command.
           command is always returned in raw mode from asterisk.
