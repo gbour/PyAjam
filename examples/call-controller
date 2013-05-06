@@ -1,0 +1,89 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
+
+import re
+import sys
+import pyajam
+import inspect
+import argparse
+
+
+def parse_server(raw):
+    """
+        'foo:bar@localhost:8088/asterisk'
+        namedtuple(server='localhost', port=8088, path=/asterisk,
+            username='foo', password='bar')
+    
+    """
+    m = re.match(r'(?:(?P<username>\w+):(?P<password>\w+)@)?(?P<server>[\w.]+)(?::(?P<port>\d+))?(?P<path>/[\w/]+)?', raw)
+    if not m:
+        return False
+
+    params = dict(m.groupdict())
+    for key, dft in (('username', 'admin'), ('password', 'admin'), ('port', 8088),
+            ('path', '/asterisk')):
+        if params.get(key) is None:
+            params[key] = dft
+
+    params['port'] = int(params['port'])
+    return params
+
+
+def action_info(conn, account):
+    print '>>>', account
+
+
+def action_dial(conn, account, exten):
+    print 'dial', account, exten
+    conn.dial(account, exten)
+
+
+if __name__ == '__main__':
+    # dynamically create actions list
+    actions = dict()
+    for k, v in locals().items():
+        if not k.startswith('action_'):
+            continue
+
+        args = inspect.getargs(v.func_code).args
+        args.remove('account')
+        args.remove('conn')
+        actions[k[7:]] = args
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--server', type=str, default='localhost:8088/asterisk',
+        help='')
+    parser.add_argument('-a', '--account', type=str, default='SIP/101',
+        help='')
+    parser.add_argument('-d', '--debug', action='store_true',
+        help='')
+
+    subparsers = parser.add_subparsers(dest='action')
+    for action, args, in actions.iteritems():
+        action_parser = subparsers.add_parser(action)
+        for arg in args:
+            action_parser.add_argument('--'+arg, type=str, required=True)
+
+    args = parser.parse_args()
+
+    # parse/validate server argument
+    params = parse_server(args.server)
+    if params is None:
+        print '*server* argument is invalid'; sys.exit(1)
+
+    # connect to asterisk server
+    conn   = pyajam.Pyajam(**params)
+    if not conn.login():
+        print "cannot login to asterisk server"; sys.exit(1)
+
+    # check account exist
+    try:
+        if conn.peer(args.account) is None:
+            raise Exception()
+    except Exception:
+        print "invalid/not-found %s account" % args.account; sys.exit(1)
+
+    # execute action
+    params = dict([(argname, getattr(args, argname)) for argname in actions[args.action]])
+    locals()['action_'+args.action](conn, args.account, **params)
+
