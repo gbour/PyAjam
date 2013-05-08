@@ -197,6 +197,18 @@ class Pyajam:
 
         return True
 
+    def logout(self):
+        if self._sessionid_ == '':
+            logging.error("logout: not logged")
+            return False
+
+        (nfo, data) = self._query('manager', 'logoff')
+        self._sessionid_      = ''
+        self._version_        = None
+        self.connexion_status = 'DISCONNECTED'
+
+        return True
+
     def version(self):
         """Return Asterisk version of server you are connected to.
          Values are **None** (not connected), **1.4** or **1.6**.
