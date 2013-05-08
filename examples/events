@@ -1,0 +1,62 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
+
+import re
+import sys
+import pyajam
+import argparse
+from pprint import pprint
+
+def unparse_server(params):
+    return "%(username)s:%(password)s@%(server)s:%(port)d%(path)s" % params
+
+def parse_server(raw):
+    """
+        'foo:bar@localhost:8088/asterisk'
+        namedtuple(server='localhost', port=8088, path=/asterisk,
+            username='foo', password='bar')
+    
+    """
+    m = re.match(r'(?:(?P<username>\w+):(?P<password>\w+)@)?(?P<server>[\w.]+)(?::(?P<port>\d+))?(?P<path>/[\w/]+)?', raw)
+    if not m:
+        return False
+
+    params = dict(m.groupdict())
+    for key, dft in (('username', 'admin'), ('password', 'admin'), ('port', 8088),
+            ('path', '/asterisk')):
+        if params.get(key) is None:
+            params[key] = dft
+
+    params['port'] = int(params['port'])
+    return params
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Display (un)registrations and call events")
+    parser.add_argument('-s', '--server', type=str, default='localhost:8088/asterisk',
+        help='asterisk server to connect to (user:pwd@domain:port/baseuri)')
+    args = parser.parse_args()
+
+    # parse/validate server argument
+    params = parse_server(args.server)
+    if params is None:
+        print '*server* argument is invalid'; sys.exit(1)
+
+    # connect to asterisk server
+    conn   = pyajam.Pyajam(**params)
+    if not conn.login():
+        print "cannot login to *%s* server" % unparse_server(params); sys.exit(1)
+
+    try:
+        while True:
+            for e in conn.waitevent():
+                #pprint(e)
+                # (un)registrations
+                if e['event'] == 'PeerStatus':
+                    print "%-20s: %s" % (e['peer'], e['peerstatus'])
+                # calls
+                if e['event'] == 'Newchannel' and len(e['exten']) > 0:
+                    print "%-20s: calling %s" % (e['channel'].split('/')[0], e['exten'])            
+    except KeyboardInterrupt:
+        pass
+
+    conn.logout()
