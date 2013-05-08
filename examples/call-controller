@@ -30,7 +30,24 @@ def parse_server(raw):
 
 
 def action_info(conn, account):
+    """Print some details about given SIP or IAX account
+    """
     print '>>>', account
+    peer = conn.peer(account)
+
+    print "  . type      :", peer['channeltype']
+    print "  . monitored :", (peer['status'] != 'Unmonitored')
+    print "  . status    :", 'connected' if peer['status'].startswith('OK') or peer['status'] == 'Unmonitored' and peer['addr->ip'] != '(null)' else  'disconnected'
+    print "  . IP        :", peer['addr->ip'].split(':')[0] if peer['addr->ip'] != '(null)' else None
+    print "  . user-agent:", peer.get('useragent',None)
+    print "  . language  :", (peer.get('language', None) if len(peer.get('language','')) > 0 else 'default')
+    print "media:"
+    print "  . codecs    :", peer['codecs'][peer['codecs'].index('(')+1:-1]
+    print "  . dtmf      :", peer.get('dtmfmode',None)
+    print "  . p2p RTP   :", peer.get('directmedia', None)
+    print "security:"
+    print "  . encryption:", peer['encryption']
+    print "  . password  :", (peer['secret'] == '<Set>')
 
 
 def action_dial(conn, account, exten):
