@@ -172,7 +172,7 @@ class Pyajam:
         """
         (info, data) = self._query('manager', 'login',
           {'username': self.username, 'secret': self.password})
-        if not info or not "Authentication accepted" in data:
+        if not info or not ("Authentication accepted" in data or "Already authenticated" in data):
             self._sessionid_ = ''
             return False
 
@@ -182,18 +182,20 @@ class Pyajam:
 
         # extraction asterisk version
         if not info.has_key('Server') or \
-        not info['Server'].startswith('Asterisk/'):
+        not info['Server'].startswith('Asterisk'):
             logging.error("login:: not logging to an asterisk server")
             return False
 
+        """
         version = info['Server'].split('/')[1].split('.',2)
         self._version_ = version[0]
         if self._version_ < '10':
             self._version_ += '.' + version [1]
         #print 'version=', self._version_, info
-        if self._version_ not in ['1.4', '1.6', '1.8', '10', '11']:
+        if self._version_ not in ['1.4', '1.6', '1.8', '10', '11', '12', '13', '14']:
             logging.error("login:: Unmanaged %s asterisk version" % self._version_)
             return False
+        """
 
         return True
 
